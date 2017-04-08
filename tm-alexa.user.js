@@ -41,7 +41,7 @@ var spokenCommandTracker = {element:'.playback-audio-text:first', oneTime: false
 var mainTextTracker = {element:'.main-text ', oneTime: true, onUpdateOnly: false, action: switchToMain};
 var musicPlayTracker = {element: '#d-play-pause.play', oneTime: true, onUpdateOnly: false, action: switchToMain};
 var endMusicTracker = {element: '.d-overlay-text-wrapper', oneTime: true, onUpdateOnly: false, action: switchToMain}; 
-var menuButton = {element: '.d-card-title', oneTime: true, onUpdateOnly:false, action: makeDraggable};
+var menuButton = {element: 'body', oneTime: true, onUpdateOnly:false, action: addStyleSheets};
     
 watch(spokenCommandTracker);
 watch(musicPlayTracker);
@@ -81,6 +81,8 @@ function makeDraggable() {
     
 function addStyleSheets() {
 $('head').append('<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">');    
+$('head').append('<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/markwcraddock/alexa-test/master/menuCss.css">');
+$('body').append('<a href="#" class="float" id="menu-share"><i class="fa fa-share my-float"></i></a><ul><li><a href="#"><i class="fa fa-facebook my-float"></i></a></li><li><a href="#"><i class="fa fa-google-plus my-float"></i></a></li><li><a href="#"><i class="fa fa-twitter my-float"></i></a></li></ul>');
 }
 
 })();
