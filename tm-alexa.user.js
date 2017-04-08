@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Alexa Screen Modifier webVersion
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  New Update. Let's see what happens
-// @require http://code.jquery.com/jquery-1.12.4.min.js
-// @require http://code.jquery.com/ui/1.8.21/jquery-ui.min.js
-// @require file:///var/www/tamper-monkey/jquery.ui.touch-punch.min.js
+// @require https://code.jquery.com/jquery-1.12.4.min.js
+// @require https://code.jquery.com/ui/1.8.21/jquery-ui.min.js
+// @require https://raw.githubusercontent.com/markwcraddock/alexa-test/master/touch-punch.js
 // @author       mark craddock
 // @match        http://alexa.amazon.co.uk/*
 // @grant        none
