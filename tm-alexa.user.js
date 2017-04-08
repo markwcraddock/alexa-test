@@ -2,7 +2,7 @@
 // @name         Alexa Screen Modifier webVersion
 // @namespace    http://tampermonkey.net/
 // @version      0.3
-// @description  New Update. Let's see what happens
+// @description  With added touchpunch
 // @require https://code.jquery.com/jquery-1.12.4.min.js
 // @require https://code.jquery.com/ui/1.8.21/jquery-ui.min.js
 // @require https://raw.githubusercontent.com/markwcraddock/alexa-test/master/touch-punch.js
