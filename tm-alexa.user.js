@@ -41,7 +41,7 @@ var spokenCommandTracker = {element:'.playback-audio-text:first', oneTime: false
 var mainTextTracker = {element:'.main-text ', oneTime: true, onUpdateOnly: false, action: switchToMain};
 var musicPlayTracker = {element: '#d-play-pause.play', oneTime: true, onUpdateOnly: false, action: switchToMain};
 var endMusicTracker = {element: '.d-overlay-text-wrapper', oneTime: true, onUpdateOnly: false, action: switchToMain}; 
-var menuButton = {element: '#navMenuIcon', oneTime: true, onUpdateOnly:false, action: makeDraggable};
+var menuButton = {element: '.d-card-title', oneTime: true, onUpdateOnly:false, action: makeDraggable};
     
 watch(spokenCommandTracker);
 watch(musicPlayTracker);
@@ -76,7 +76,7 @@ function removeWatch(item) {
 }
     
 function makeDraggable() {
-  $('#navMenuIcon').draggable();
+  $('.d-card-title').draggable();
 }
 
 })();
