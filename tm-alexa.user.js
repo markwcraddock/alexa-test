@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Alexa Screen Modifier webVersion
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  try to take over the world!
+// @version      0.2
+// @description  New Update. Let's see what happens
 // @require http://code.jquery.com/jquery-1.12.4.min.js
 // @require http://code.jquery.com/ui/1.8.21/jquery-ui.min.js
 // @require file:///var/www/tamper-monkey/jquery.ui.touch-punch.min.js
