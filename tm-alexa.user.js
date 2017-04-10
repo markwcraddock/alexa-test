@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Alexa Screen Modifier webVersion
 // @namespace    http://tampermonkey.net/
-// @version      0.7
-// @description  With added touchpunch
+// @version      0.8
+// @description  Recipe updated
 // @require https://code.jquery.com/jquery-1.12.4.min.js
 // @require https://code.jquery.com/ui/1.8.21/jquery-ui.min.js
 // @require https://raw.githubusercontent.com/markwcraddock/alexa-test/master/touch-punch.js
@@ -139,12 +139,9 @@ function assignCss() {
     
 
 function createRecipePage() {
-      $('#d-content').load( "https://raw.githubusercontent.com/markwcraddock/alexa-test/master/recipeList.html" );
-      $('#d-header-title').text('Great Food Ideas');
-      console.log('retrieving google sheet data');
-      $.getJSON( "https://script.google.com/macros/s/AKfycbw7uaEQeamdNHxOT3PlFBnjiQU7xZTr-Iw2J-5UiHQfhbq7g28/exec", function( data ) {
-          alert(JSON.stringify(data));
-      });
+    if (window.location.href !== "https://awesome-table.com/-KhIDw5oKK9XyYykaElK/view") window.location = "https://awesome-table.com/-KhIDw5oKK9XyYykaElK/view";
 }
+    
+    https://awesome-table.com/-KhIDw5oKK9XyYykaElK/view
 
 })();
