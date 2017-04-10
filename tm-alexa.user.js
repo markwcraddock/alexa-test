@@ -8,6 +8,9 @@
 // @require https://raw.githubusercontent.com/markwcraddock/alexa-test/master/touch-punch.js
 // @author       mark craddock
 // @match        http://alexa.amazon.co.uk/*
+// @match        https://awesome-table.com/*
+// @match        https://alexa.amazon.co.uk/*
+// @match        http://awesome-table.com/*
 // @grant        none
 // ==/UserScript==
 
