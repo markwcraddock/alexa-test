@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name         Alexa Screen Modifier webVersion
 // @namespace    http://tampermonkey.net/
-// @version      0.8
+// @version      0.9
 // @description  Recipe updated
 // @require https://code.jquery.com/jquery-1.12.4.min.js
 // @require https://code.jquery.com/ui/1.8.21/jquery-ui.min.js
 // @require https://raw.githubusercontent.com/markwcraddock/alexa-test/master/touch-punch.js
 // @author       mark craddock
 // @match        http://alexa.amazon.co.uk/*
-// @match        https://awesome-table.com/*
+// @match        https://view-awesome-table.com/*
 // @match        https://alexa.amazon.co.uk/*
-// @match        http://awesome-table.com/*
+// @match        http://view-awesome-table.com/*
 // @grant        none
 // ==/UserScript==
 
@@ -47,12 +47,14 @@ var musicPlayTracker = {element: '#d-play-pause.play', oneTime: true, onUpdateOn
 var endMusicTracker = {element: '.d-overlay-text-wrapper', oneTime: true, onUpdateOnly: false, action: switchToMain}; 
 var menuButtonStyles = {element: 'head', oneTime: true, onUpdateOnly:false, action: addStyleSheets};
 var menuButtonMain = {element: 'link', oneTime: true, onUpdateOnly:false, action: addMenuButtons};
+var awesomeTables = {element: '.infocontainer', oneTime: false, onUpdateOnly:true, action: fixAwesomeTables};    
     
 watch(spokenCommandTracker);
 watch(musicPlayTracker);
 watch(endMusicTracker);
 watch(menuButtonStyles);
 watch(menuButtonMain);
+watch(awesomeTables);
 
 function spokenAction(audioCommand){
     console.log('command is:' + audioCommand);
@@ -82,7 +84,6 @@ function removeWatch(item) {
 }
     
 
-    
 function addStyleSheets() {
 var link = document.createElement('link');
 link.rel = 'stylesheet';
@@ -111,9 +112,7 @@ $('body').append('<div class="menu-float-alex"><a class="float" id="menu-share" 
 $('.fa').click(function() {
   var myClass = $(this).attr("class");
   if (myClass.search('cutlery') !== -1) {
-      window.location.href = "#help/thingstotry";
-      var recipeMaker = {element: '.dee-help-page', oneTime: true, onUpdateOnly:false, action: createRecipePage};
-      watch(recipeMaker);
+      createRecipePage();
   }
   if (myClass.search('chevron') !== -1) {window.history.back();}
   if (myClass.search('home') !== -1) {window.location.replace("http://alexa.amazon.co.uk/spa/index.html#cards");}
@@ -129,22 +128,45 @@ $('.fa').click(function() {
 function assignCss() {
     return "a#menu-share:active, a#menu-share:focus, a#menu-share:hover{color: #FFF !important; text-decoration: none;} .label-container{position:fixed;bottom:48px;right:105px;display:table;visibility: hidden;}" +
         ".label-text{color:#FFF;background:c;display:table-cell;vertical-align:middle;padding:10px;border-radius:3px;}.label-arrow{display:table-cell;vertical-align:middle;color:#333;opacity:0.5;}" +
-        ".float{position:fixed;width:60px;height:60px;bottom:90px;right:40px;background-color:cadetblue;color:#FFF !important;" +
-        "border-radius:50px;text-align:center;box-shadow: 2px 2px 3px #999;z-index:1000;animation: bot-to-top 2s ease-out;}ul{position:fixed;right:40px;padding-bottom:20px;bottom:125px;z-index:100;}" +
+        ".float{position:fixed;width:60px;height:60px;top:3px;right:40px;background-color:cadetblue;color:#FFF !important;" +
+        "border-radius:50px;text-align:center;box-shadow: 2px 2px 3px #999;z-index:1000;animation: bot-to-top 2s ease-out;}ul{position:fixed;right:40px;padding-bottom:20px;bottom:100px;z-index:100;}" +
         "ul li{list-style:none;margin-bottom:10px;}ul li a{background-color:cadetblue;color:#FFF !important;border-radius:50px;text-align:center;box-shadow: 2px 2px 3px #999;" +
         "width:60px;height:60px;display:block;}ul:hover{visibility:visible!important;opacity:1!important;}.my-float{font-size:24px;margin-top:18px;}" +
         "a#menu-share + ul{visibility: hidden;}a#menu-share:hover + ul{visibility: visible;animation: scale-in 0.5s;}a#menu-share i{animation: rotate-in 0.5s;}" +
         "a#menu-share:hover > i{animation: rotate-out 0.5s;}@keyframes bot-to-top {0% {bottom:-40px}50% {bottom:40px}}@keyframes scale-in {from {transform: scale(0);opacity: 0;}" +
         "to {transform: scale(1);opacity: 1;}}@keyframes rotate-in {from {transform: rotate(0deg);}to {transform: rotate(360deg);}}@keyframes rotate-out {from {transform: rotate(360deg);}to {transform: rotate(0deg);}}" +
         "#wrapper ul{width:760px; margin-bottom:20px; overflow:hidden; border-top:1px solid #ccc;} #wrapper li{ line-height:1.5em; border-bottom:1px solid #ccc; float:left; display:inline;}" +
-        " #double li{ width:50%;} #triple li{ width:33.333%; } #quad li{ width:25%; } #six li{ width:16.666%; }";
+        " #double li{ width:50%;} #triple li{ width:33.333%; } #quad li{ width:25%; } #six li{ width:16.666%; } paper-header-panel>paper-toolbar{display:none !important;}" +
+        ".upDown{display: none; position:fixed;width:60px;height:60px;right:5px;background-color:red;color:#FFF !important;border-radius:50px;text-align:center;box-shadow: 2px 2px 3px #999;z-index:1000;}" +
+        ".upArrow{top:345px;}.downArrow{top:415px}";
 }
     
 
 function createRecipePage() {
-    if (window.location.href !== "https://awesome-table.com/-KhIDw5oKK9XyYykaElK/view") window.location = "https://awesome-table.com/-KhIDw5oKK9XyYykaElK/view";
+   if (window.location.href !== "https://view-awesome-table.com/-KhIDw5oKK9XyYykaElK/view") window.location = "https://view-awesome-table.com/-KhIDw5oKK9XyYykaElK/view";
+  // document.write('<html><head></head><body><iframe height="475px" width="100%" style="border:none;" src="https://view-awesome-table.com/-KhIDw5oKK9XyYykaElK/view"></iframe></body></html>');
 }
-    
-    https://awesome-table.com/-KhIDw5oKK9XyYykaElK/view
 
+function fixAwesomeTables() {
+    $(".upArrow").click(function(event){
+        $('html, body').animate({scrollTop: '-=100px'}, 800);
+    });
+    $(".downArrow").click(function(event){
+        $('html, body').animate({scrollTop: '+=100px'}, 800);
+    });    
+    $('.infocontainer').click(function(){
+        if ($('#parentChart1').is(':visible')) {
+            $('#parentChart1').hide();
+            $('.upDown').show();
+            $('#sidebar').css('width','85%');
+        } else {
+            $('#parentChart1').show();
+            $('#sidebar').css('width','59%');
+            $('.upDown').hide();
+            }
+    });
+}
+
+    
+    
 })();
