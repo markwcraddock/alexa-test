@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Alexa Screen Modifier webVersion
 // @namespace    http://tampermonkey.net/
-// @version      0.92
+// @version      0.93
 // @description  Updates to icons
 // @require https://code.jquery.com/jquery-1.12.4.min.js
 // @require https://code.jquery.com/ui/1.8.21/jquery-ui.min.js
@@ -138,7 +138,7 @@ function assignCss() {
         "#wrapper ul{width:760px; margin-bottom:20px; overflow:hidden; border-top:1px solid #ccc;} #wrapper li{ line-height:1.5em; border-bottom:1px solid #ccc; float:left; display:inline;}" +
         " #double li{ width:50%;} #triple li{ width:33.333%; } #quad li{ width:25%; } #six li{ width:16.666%; } paper-header-panel>paper-toolbar{display:none !important;}" +
         ".upDown{display: none; position:fixed;width:50px;height:50px;right:5px;background-color:red;color:#FFF !important;border-radius:50px;text-align:center;box-shadow: 2px 2px 3px #999;z-index:1000;}" +
-        ".upArrow{top:345px;}.downArrow{top:415px}";
+        ".upArrow{top:345px;}.downArrow{top:415px}.zoom{top:275px}";
 }
     
 
@@ -166,8 +166,32 @@ function fixAwesomeTables() {
             $('.upDown').hide();
             }
     });
+    
+        $(".zoom").click(function(event){
+            switch ($(".info").css("font-size"))
+            {
+                case "12px":
+                    $(".info").css("font-size","14px");
+                    break;                    
+                case "14px":
+                    $(".info").css("font-size","16px");
+                    break;                
+                case "16px":
+                    $(".info").css("font-size","18px");
+                    break;                    
+                case "18px":
+                    $(".info").css("font-size","20px");
+                    break;
+                case "20px":
+                    $(".info").css("font-size","22px");
+                    break;
+                case "22px":
+                    $(".info").css("font-size","14px");
+                    break;    
+                default:
+                    $(".info").css("font-size","14px");
+            }
+        });    
 }
 
-    
-    
 })();
