@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Alexa Screen Modifier webVersion
 // @namespace    http://tampermonkey.net/
-// @version      0.97
+// @version      0.98
 // @description  Updates to icons
 // @require https://code.jquery.com/jquery-1.12.4.min.js
 // @require https://code.jquery.com/ui/1.8.21/jquery-ui.min.js
