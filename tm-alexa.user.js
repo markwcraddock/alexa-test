@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Alexa Screen Modifier webVersion
 // @namespace    http://tampermonkey.net/
-// @version      0.93
+// @version      0.97
 // @description  Updates to icons
 // @require https://code.jquery.com/jquery-1.12.4.min.js
 // @require https://code.jquery.com/ui/1.8.21/jquery-ui.min.js
 // @require https://raw.githubusercontent.com/markwcraddock/alexa-test/master/touch-punch.js
+// commented out https://www.gstatic.com/firebasejs/3.7.5/firebase.js
 // @author       mark craddock
 // @match        http://alexa.amazon.co.uk/*
 // @match        https://view-awesome-table.com/*
@@ -16,7 +17,29 @@
 
 (function() {
     'use strict';
-
+     var update = getParameterByName('update');
+     if (update === '1') {
+     var url = window.location.href.replace('update=1','update=2');
+     window.location.replace(url);    
+     }
+     var firebaseScript = document.createElement('script');
+     firebaseScript.setAttribute('src','https://www.gstatic.com/firebasejs/3.7.5/firebase.js');
+     document.head.appendChild(firebaseScript);
+    
+    var firebaseConfig = {
+    apiKey: "AIzaSyDEmPg8sGZU1cB5waNhd8MZ6Krl64Bo1Wg",
+    authDomain: "kitchenpi-9c3ea.firebaseapp.com",
+    databaseURL: "https://kitchenpi-9c3ea.firebaseio.com",
+    projectId: "kitchenpi-9c3ea",
+    storageBucket: "kitchenpi-9c3ea.appspot.com",
+    messagingSenderId: "440634809814"};
+        
+    // start Firebase or keep trying until ready after 15 seconds
+    
+    startFirebase(firebaseConfig);
+        
+    // end Firebase
+    
     var alexaCss = assignCss();
     var watchedObjectList = [];
     
@@ -48,13 +71,14 @@ var endMusicTracker = {element: '.d-overlay-text-wrapper', oneTime: true, onUpda
 var menuButtonStyles = {element: 'head', oneTime: true, onUpdateOnly:false, action: addStyleSheets};
 var menuButtonMain = {element: 'link', oneTime: true, onUpdateOnly:false, action: addMenuButtons};
 var awesomeTables = {element: '.infocontainer', oneTime: false, onUpdateOnly:true, action: fixAwesomeTables};    
-    
+
 watch(spokenCommandTracker);
 watch(musicPlayTracker);
 watch(endMusicTracker);
 watch(menuButtonStyles);
 watch(menuButtonMain);
 watch(awesomeTables);
+
 
 function spokenAction(audioCommand){
     console.log('command is:' + audioCommand);
@@ -192,6 +216,58 @@ function fixAwesomeTables() {
                     $(".info").css("font-size","14px");
             }
         });    
+}
+
+// Alexa Command Routine
+    function interpretAlexa(action, para1, para2) {
+        console.log('interpreting alexa for...' + action +'/' + para1);
+    switch (action) 
+    {
+        case 'PageUpIntent':
+            $('html, body').animate({scrollTop: '-=150px'}, 800);
+            break;
+        case 'PageDownIntent':
+            $('html, body').animate({scrollTop: '+=150px'}, 800);
+            break;
+        case 'ShowAllRecipesIntent':
+            console.log('recipe book requested');
+            window.location.replace("https://view-awesome-table.com/-KhIDw5oKK9XyYykaElK/view?update=1");
+            break;
+        case 'HomePageIntent':
+           window.location.replace("http://alexa.amazon.co.uk/spa/index.html#cards");
+            break;
+        case "ShowRecipesForIntent":
+            window.location.replace("https://view-awesome-table.com/-KhIDw5oKK9XyYykaElK/view?filterA=" + para1 + '&update=1');
+            console.log('performing search for...' + para1);
+            break;
+        default:    
+    }
+    }
+    
+    function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+    
+function startFirebase(config) {
+        if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(config);
+        var alexaCommand = firebase.database().ref('alexaAPI');
+        console.log('firebase watcher set');
+        alexaCommand.on('child_changed', function(snapshot) {
+            var alexaCommand = snapshot.val();
+            console.log('data changed:');
+            interpretAlexa(alexaCommand.action, alexaCommand.parameter1, alexaCommand.para2);
+     });
+    }
+    else setTimeout(function(){ console.log('waiting...'); startFirebase(config); }, 1000);
 }
 
 })();
